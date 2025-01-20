@@ -46,7 +46,7 @@ int setup_buff(char *buff, char *user_str, int len){
 		src++;
 	}
 	
-	// if string ends in whitespace, remove trailing space
+	// if string ends while in whitespace, remove any trailing space
 	if (in_whitespace && real_len > 0) {
 		dest--;
 		bytes_used--;
@@ -140,7 +140,7 @@ int word_print(char *buff, int str_len) {
 		}
 		i++;
 	}
-	// If ends while still in a word, print final word
+	// If the line ends while still in a word, print the final word
 	if (in_word) {
 		int word_len = i - word_start;
 		word_count++;
@@ -163,11 +163,12 @@ int main(int argc, char *argv[]){
     int  user_str_len;      //length of user supplied string
 
     //TODO:  #1. WHY IS THIS SAFE, aka what if arv[1] does not exist?
-	//		This is safe because the program first checks argc < 2. 
-	// 		If this condition is true, argv[1] is never accessed, 
-	// 		avoiding out-of-bounds access. The dereferencing of argv[1] 
-	// 		happens only when there are at least two arguments provided, 
-	// 		ensuring the program doesn't crash due to invalid memory access.
+	/*		This is safe because the program first checks argc < 2. 
+	If this condition is true, argv[1] is never accessed, 
+	avoiding out-of-bounds access. The dereferencing of argv[1] 
+	happens only when there are at least two arguments provided, 
+	ensuring the program doesn't crash due to invalid memory access.
+	*/
     if ((argc < 2) || (*argv[1] != '-')){
         usage(argv[0]);
         exit(1);
@@ -184,10 +185,11 @@ int main(int argc, char *argv[]){
     //WE NOW WILL HANDLE THE REQUIRED OPERATIONS
 
     //TODO:  #2 Document the purpose of the if statement below
-	//		The purpose of this if statement is to ensure that the program 
-	// 		has at least three arguments: the executable name, the option flag,
-	//		and the user string. Without the user string (third argument), the 
-	//		program cannot proceed and exits after displaying the usage instructions.
+	/*		The purpose of this if statement is to ensure that the program 
+	has at least three arguments: the executable name, the option flag, 
+	and the user string. Without the user string (third argument), the 
+	program cannot proceed and exits after displaying the usage instructions.
+	*/
     if (argc < 3){
         usage(argv[0]);
         exit(1);
@@ -269,9 +271,10 @@ int main(int argc, char *argv[]){
 //          is a good practice, after all we know from main() that 
 //          the buff variable will have exactly 50 bytes?
 //  	
-//			I think providing both the pointer and the length is good practice because 
-//			it decouples the buffer's memory size from its logical content size. 
-//			Even though main() knows the buffer is 50 bytes, helper functions shouldn't 
-//			make assumptions about the buffer size. Explicitly passing the length ensures 
-//			functions operate safely within the defined boundaries, making the code more 
-//			modular and robust to changes.
+/*		I think providing both the pointer and the length is good practice because 
+it decouples the buffer's memory size from its logical content size. 
+Even though main() knows the buffer is 50 bytes, helper functions shouldn't 
+make assumptions about the buffer size. Explicitly passing the length ensures 
+functions operate safely within the defined boundaries, making the code more 
+modular and robust to changes.
+*/
