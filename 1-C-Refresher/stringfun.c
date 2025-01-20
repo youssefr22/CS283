@@ -17,33 +17,33 @@ int reverse_string(char*, int);
 int word_print(char*, int);
 
 int setup_buff(char *buff, char *user_str, int len){
-	//TODO: #4:  Implement the setup buff as per the directions
-	 char *src = user_str;
-	 char *dest = buff;
-	 int real_len = 0;			// number of real characters added (not including dots)
-	 int bytes_used = 0;		// number of bytes used in buff (including dots)
-	 int in_whitespace = 1;		// since start is whitespace, skip leading spaces
+//TODO: #4:  Implement the setup buff as per the directions
+	char *src = user_str;
+	char *dest = buff;
+	int real_len = 0;			// number of real characters added (not including dots)
+	int bytes_used = 0;		// number of bytes used in buff (including dots)
+	int in_whitespace = 1;		// since start is whitespace, skip leading spaces
 
-	 while (*src != '\0') {
-	 	// activate if current character is space or tab
-	 	if (*src == ' ' || *src == '\t') {
-			// space is added if not in a whitespace block
-			if (!in_whitespace) {
-				if (bytes_used >= len) return -1;
-				*dest++ = ' ';
-				bytes_used++;
-				real_len++;
-				in_whitespace = 1;
-			}
-		} else {
-			// non-whitespace character
+	while (*src != '\0') {
+	// activate if current character is space or tab
+	if (*src == ' ' || *src == '\t') {
+		// space is added if not in a whitespace block
+		if (!in_whitespace) {
 			if (bytes_used >= len) return -1;
-			*dest++ = *src;
+			*dest++ = ' ';
 			bytes_used++;
 			real_len++;
-			in_whitespace = 0;
+			in_whitespace = 1;
 		}
-		src++;
+	} else {
+		// non-whitespace character
+		if (bytes_used >= len) return -1;
+		*dest++ = *src;
+		bytes_used++;
+		real_len++;
+		in_whitespace = 0;
+	}
+	src++;
 	}
 	
 	// if string ends while in whitespace, remove any trailing space
@@ -76,19 +76,19 @@ void usage(char *exename){
 }
 
 int count_words(char *buff, int str_len){
-	//YOU MUST IMPLEMENT
-	 int count = 0;
-	 int in_word = 0;
+//YOU MUST IMPLEMENT
+	int count = 0;
+	int in_word = 0;
 
-	 for (int i = 0; i < str_len; i++) {
-	 	if (*(buff + i) == ' ') {
-			if (in_word) {
-				count++;
-				in_word = 0;
-			}
-		} else {
-			in_word = 1;
+	for (int i = 0; i < str_len; i++) {
+	if (*(buff + i) == ' ') {
+		if (in_word) {
+			count++;
+			in_word = 0;
 		}
+	} else {
+		in_word = 1;
+	}
 	}
 	
 	if (in_word) count++;
@@ -140,6 +140,7 @@ int word_print(char *buff, int str_len) {
 		}
 		i++;
 	}
+
 	// If the line ends while still in a word, print the final word
 	if (in_word) {
 		int word_len = i - word_start;
@@ -200,17 +201,17 @@ int main(int argc, char *argv[]){
 	//TODO:  #3 Allocate space for the buffer using malloc and
     //          handle error if malloc fails by exiting with a 
     //          return code of 99
-	 buff = (char*)malloc(BUFFER_SZ);
-	 if (buff == NULL) {
-	 	fprintf(stderr, "Error: Memory Allocation failed\n");
-		exit(2);
+	buff = (char*)malloc(BUFFER_SZ);
+	if (buff == NULL) {
+	fprintf(stderr, "Error: Memory Allocation failed\n");
+	exit(2);
 	}
    
 
     user_str_len = setup_buff(buff, input_string, BUFFER_SZ);     
     if (user_str_len < 0){
         printf("Error setting up buffer, error = %d\n", user_str_len);
-		  free(buff);
+		free(buff);
         exit(3);
     }
 
@@ -219,8 +220,8 @@ int main(int argc, char *argv[]){
             rc = count_words(buff, user_str_len);  
             if (rc < 0){
                 printf("Error counting words, rc = %d\n", rc);
-					 free(buff);
-					 exit(3);
+				free(buff);
+				exit(3);
             }
             printf("Word Count: %d\n", rc);
             break;
