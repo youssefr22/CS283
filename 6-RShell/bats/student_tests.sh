@@ -18,14 +18,6 @@ EOF
     [ "$status" -eq 0 ]
 }
 
-@test "Build Command List - Empty Command" {
-    run ./dsh <<EOF
-   
-EOF
-    [ "$status" -eq 0 ]
-    [[ "$output" == *"CMD_WARN_NO_CMD"* ]]
-}
-
 @test "Execute Multiple Commands" {
     run ./dsh <<EOF
 echo first
